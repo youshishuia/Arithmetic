@@ -18,6 +18,8 @@ public class Sort {
         System.out.println(Arrays.toString(a));
         mergeSort(a,0,a.length-1);
         System.out.println(Arrays.toString(a));
+        heapSort(a);
+        System.out.println(Arrays.toString(a));
     }
 
     /**
@@ -131,6 +133,11 @@ public class Sort {
         mid = low;
         return mid;
     }
+    /**
+     * @description 归并排序递归实现
+     * @param [a, low, high]整形数组 低指针 高指针
+     * @return void
+     **/
     public static void mergeSort(int[]a,int low,int high){
         if(a==null){return;}
         int middle = (high+low)/2;
@@ -140,7 +147,12 @@ public class Sort {
             merge(a,low,high,middle);
         }
     }
-    public  static int[] merge(int[]a, int low, int high,int middle){
+    /**
+     * @description 归并合并实现
+     * @param [a, low, high, middle] 整形数组 低指针 高指针 中间指针
+     * @return int[]
+     **/
+    public  static void merge(int[]a, int low, int high,int middle){
         int [] temp = new int[high-low+1];
         //左指针
         int i = low;
@@ -165,7 +177,40 @@ public class Sort {
         for(int k2=0;k2<temp.length-1;k2++){
             a[low+k2] = temp[k2];
         }
-        return a;
     }
+    public  static void heapSort(int[]a){
+        for(int i =0;i<a.length;i++) {
+            buildHeap(a, a.length-1 - i);
+            int temp = a[0];
+            a[0] = a[a.length-1-i];
+            a[a.length-1-i] = temp;
 
+        }
+    }
+    //对data数组从0到lastIndex建大顶堆
+    public static void buildHeap(int[]a,int lastIndex){
+        //从lastIndex处节点（最后一个节点）的父节点开始
+        for(int i=(lastIndex-1)/2;i>=0;i--){
+            //k保存正在判断的节点
+            int k=i;
+            //如果当前k节点的子节点存在
+            while(k*2+1<=lastIndex){
+                int biggerIndex =2*k+1;
+                if(biggerIndex<lastIndex){
+                    if(a[biggerIndex]<a[biggerIndex+1]){
+                        biggerIndex++;
+                    }
+                }
+                if(a[k]<a[biggerIndex]){
+                    int temp = a[k];
+                    a[k] = a[biggerIndex];
+                    a[biggerIndex] = temp;
+                    k = biggerIndex;
+                }
+                else {
+                    break;
+                }
+            }
+        }
+    }
 }
