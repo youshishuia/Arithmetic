@@ -19,6 +19,8 @@ public class Sort {
         System.out.println(Arrays.toString(a));
         selectSort(a);
         System.out.println(Arrays.toString(a));
+        quickSort(a);
+        System.out.println(Arrays.toString(a));
     }
 
     /**
@@ -85,7 +87,54 @@ public class Sort {
             a[i] = min;
         }
     }
-    public static void quickSort(){
-
+    /**
+     * @description 对一个数组快排，判断数组是否为空
+     * @param [a] 整形数组
+     * @return void
+     **/
+    public static void quickSort(int[]a){
+        //如果数组为空就跳出
+        if(a==null){return;}
+        //递归排序方法
+        sort(a,0,a.length-1);
     }
+    /**
+     * @description 快排的递归实现
+     * @param [a, low, hight] 整形数组 低指针 高指针
+     * @return void
+     **/
+    public static void sort (int[]a,int low,int high){
+        if(low<a.length||high>0) {
+            if (low < high) {
+                int middle = getMiddle(a, low, high);
+                sort(a, low, middle - 1);
+                sort(a, middle + 1, high);
+            }
+        }
+    }
+    /**
+     * @description 快排并返回基准下标
+     * @param [a, low, high] 整形数组 低指针 高指针
+     * @return int 返回基准下标
+     **/
+    public static int getMiddle(int[]a,int low,int high){
+        //取数组第一位做基准值
+        int middle = a[low];
+        int mid = low;
+        while(low<high){
+            while(low<high && a[high]>middle){
+                high--;
+            }
+            a[low] = a[high];
+            while(low<high && a[low]<middle){
+                low++;
+            }
+            a[high] = a[low];
+        }
+        //当高低指针相遇时，将基准值赋给相遇位置，然后返回基准下标
+        a[low] = middle;
+        mid = low;
+        return mid;
+    }
+
 }
