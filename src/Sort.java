@@ -13,13 +13,10 @@ public class Sort {
         for(int i =0;i<a.length;i++){
             a[i] = random.nextInt(100);
         }
-        insertSort(a);
-        System.out.println(Arrays.toString(a));
-        bSort(a);
-        System.out.println(Arrays.toString(a));
-        selectSort(a);
-        System.out.println(Arrays.toString(a));
+
         quickSort(a);
+        System.out.println(Arrays.toString(a));
+        mergeSort(a,0,a.length-1);
         System.out.println(Arrays.toString(a));
     }
 
@@ -104,13 +101,11 @@ public class Sort {
      * @return void
      **/
     public static void sort (int[]a,int low,int high){
-        if(low<a.length||high>0) {
             if (low < high) {
                 int middle = getMiddle(a, low, high);
                 sort(a, low, middle - 1);
                 sort(a, middle + 1, high);
             }
-        }
     }
     /**
      * @description 快排并返回基准下标
@@ -135,6 +130,42 @@ public class Sort {
         a[low] = middle;
         mid = low;
         return mid;
+    }
+    public static void mergeSort(int[]a,int low,int high){
+        if(a==null){return;}
+        int middle = (high+low)/2;
+        if(low<high){
+            mergeSort(a,low,middle);
+            mergeSort(a,middle+1,high);
+            merge(a,low,high,middle);
+        }
+    }
+    public  static int[] merge(int[]a, int low, int high,int middle){
+        int [] temp = new int[high-low+1];
+        //左指针
+        int i = low;
+        //右指针
+        int j = middle+1;
+        //辅助数组初始指针
+        int k = 0;
+        while(i<middle+1 && j<high+1){
+            if(a[i]<a[j]){
+                temp[k++] = a[i++];
+            }
+            else{
+                temp[k++] = a[j++];
+            }
+        }
+        while(i<middle+1){
+            temp[k++] = a[i++];
+        }
+        while(j<high+1){
+            temp[k++] = a[j++];
+        }
+        for(int k2=0;k2<temp.length-1;k2++){
+            a[low+k2] = temp[k2];
+        }
+        return a;
     }
 
 }
